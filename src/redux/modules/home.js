@@ -1,5 +1,7 @@
 import { get } from '../../utils/requests';
 import { url } from '../../utils/urls';
+import { FETCH_DATA } from '../middlewares/api';
+import { schema } from './entities/products'; 
 
 export const types = {
     FETCH_LIKES_REQUEST: 'HOME/FETCH_LIKES_REQUEST',
@@ -12,6 +14,11 @@ const defaultFetchLikesPageSize = 10;
 
 export const actions = {
     fetchLikes: () => {
+        const endpoint = url.getProductList(defaultFetchLikesOffset, defaultFetchLikesPageSize);
+        return dispatch(fetchLikes(endpoint));
+    }
+    /*
+    fetchLikes: () => {
         return (dispatch, getState) => {
             dispatch(FETCH_LIKES_REQUEST());
             return get(url.getProductList(defaultFetchLikesOffset, defaultFetchLikesPageSize)).then(
@@ -23,9 +30,22 @@ export const actions = {
                 }
             );
         };
-    }
+    }*/
 };
 
+const fetchLikes = (endpoint) => ({
+    [FETCH_DATA]: {
+        types: [
+            type.FETCH_LIKES_REQUEST,
+            type.FETCH_LIKES_SUCCESS,
+            type.FETCH_LIKES_FAILURE
+        ],
+        endpoint,
+        schema
+    }
+});
+
+/*
 const fetchLikesRequest = () => ({
     type: FETCH_LIKES_REQUEST
 });
@@ -36,9 +56,7 @@ const fetchLikesFailure = () => ({
 
 const fetchLikesSuccess = () => ({
     type: FETCH_LIKES_SUCCESS
-})
-
-
+});*/
 
 const reducer = (state = {}, action) => {
     switch (action.type) {

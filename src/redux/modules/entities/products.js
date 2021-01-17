@@ -4,6 +4,9 @@ export const schema = {
 };
 
 const reducer = (state = {}, action) => {
+    if (action.response && action.response.products) {
+        return {...state, ...action.response.products};
+    }
     return state;
 }
 

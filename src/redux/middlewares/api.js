@@ -33,7 +33,7 @@ export default store => next => action => {
     next(enhanceAction({type: requestType}));
 
     return fetchData(endpoint, schema).then(
-        response > next(enhanceAction({
+        response => next(enhanceAction({
             type: successType,
             response
         })),

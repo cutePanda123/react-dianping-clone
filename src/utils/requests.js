@@ -7,28 +7,30 @@ function get(url) {
   return fetch(url, {
     method: "GET",
     headers: headers,
-  }).then((response) => {
+  })
+    .then((response) => {
       handleResponse(url, response);
-  }).catch(err => {
-    console.error(`Request failed. URL = ${url} Message=${err}`);
-    return Promise.reject({ error: { message: "Requrest failed" } });
-  });
-}
-
-function post(url) {
-    return fetch(url, {
-      method: "POST",
-      headers: headers,
-      body: data
-    }).then((response) => {
-        handleResponse(url, response);
-    }).catch(err => {
+    })
+    .catch((err) => {
       console.error(`Request failed. URL = ${url} Message=${err}`);
       return Promise.reject({ error: { message: "Requrest failed" } });
     });
-  }
+}
 
-function post(url, data) {}
+function post(url, data) {
+  return fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: data,
+  })
+    .then((response) => {
+      handleResponse(url, response);
+    })
+    .catch((err) => {
+      console.error(`Request failed. URL = ${url} Message=${err}`);
+      return Promise.reject({ error: { message: "Requrest failed" } });
+    });
+}
 
 function handleResponse(url, response) {
   if (response.status === 200) {

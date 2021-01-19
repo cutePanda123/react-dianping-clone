@@ -42,8 +42,8 @@ class Discount extends Component {
     return (
       <div className="discount">
         <a className="discount__header">
-          <span className='discount__title'>Running Discount</span>
-          <span className='discount__more'>Mor Discount</span>
+          <span className='discount__title'>限时优惠</span>
+          <span className='discount__more'>更多优惠</span>
           <span className="discount__arrow" />
         </a>
         <div className="discount__content">

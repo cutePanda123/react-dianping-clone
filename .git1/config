@@ -1,0 +1,17 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[gui]
+	wmstate = normal
+	geometry = 1806x1075+18+47 521 212
+[remote "origin"]
+	url = git@github.com:cutePanda123/dianping-ui.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+[branch "users/cutepanda/working-branch-1"]
+	remote = origin
+	merge = refs/heads/users/cutepanda/working-branch-1

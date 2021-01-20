@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Footer from "../../components/Footer";
+import Activity from "./components/Activity";
 import Banner from "./components/Banner";
 import Category from "./components/Category";
 import Discount from "./components/Discount";
@@ -14,8 +16,10 @@ class Home extends Component {
         <Banner />
         <Category />
         <Headline />
+        <Activity />
         <Discount />
         <FavoriteList />
+        <Footer />
       </div>
     );
   }

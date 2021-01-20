@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Banner from "./components/Banner";
 import Category from "./components/Category";
 import Discount from "./components/Discount";
 import FavoriteList from "./components/FavoriteList";
@@ -10,6 +11,7 @@ class Home extends Component {
     return (
       <div>
         <HomeHeader />
+        <Banner />
         <Category />
         <Headline />
         <Discount />

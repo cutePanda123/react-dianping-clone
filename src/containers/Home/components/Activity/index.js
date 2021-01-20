@@ -7,7 +7,7 @@ class Activity extends React.Component {
       <div className="activity">
         <div className="activity__block">
           <a
-            className="activity__content activity__content-pink"
+            className="activity__content activity__content--pink"
             href="https://h5.dianping.com/app/ziggurat/1005/index.html?activity_tlt=1005&infrom=mzone"
           >
             <div className="activity__title">Max price $88</div>
@@ -22,12 +22,12 @@ class Activity extends React.Component {
         </div>
         <div className="activity__block">
           <a
-            className="activity__content activity__content-pink"
+            className="activity__content activity__content--pink"
             href="//h5.dianping.com/app/ziggurat/1361/index.html?notitlebar=1&token=*&latitude=*&longitude=*&activity_tlt=1361&infrom=mzone"
           >
             <div className="activity__title">Special offers</div>
             <div className="activity__subTitle activity__subTitle--pink">
-              Enjoy food, drink, and entertainment offers
+              Enjoy your offers
             </div>
             <img
               className="activity__pic"

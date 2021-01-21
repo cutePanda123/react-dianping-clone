@@ -8,6 +8,18 @@ export const types = {
   FETCH_LIKES_FAILURE: "HOME/FETCH_LIKES_FAILURE",
 };
 
+const initialState = {
+  favorites: {
+    isFetching: false,
+    pageIndex: 0,
+    ids: []
+  },
+  discounts: {
+    isFetching: false,
+    ids: []
+  }
+};
+
 const defaultFetchLikesOffset = 0;
 const defaultFetchLikesPageSize = 10;
 

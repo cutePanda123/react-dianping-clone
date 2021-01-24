@@ -18,7 +18,7 @@ class FavoriteItem extends Component {
       <Link to={`/detail/${id}`} className="favoriteItem">
         <div className="favoriteItem__picContainer">
           <div className="favoriteItem__picTag">{tag}</div>
-          <img className="favoriteItem__pic" src={picture} />
+          <img alt='favorite_item_image' className="favoriteItem__pic" src={picture} />
         </div>
         <div className="favoriteItem__content">
           <div className="favoriteItem__shop">{shop}</div>

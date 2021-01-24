@@ -15,6 +15,7 @@ class Activity extends React.Component {
               Get new user bonus
             </div>
             <img
+              alt="activit_image1"
               className="activity__pic"
               src="https://op.meituan.net/oppkit_pic/20160310032241-1e027deb-2/a3a31fff2e047a907a53d6488877f7fe.png"
             />
@@ -30,6 +31,7 @@ class Activity extends React.Component {
               Enjoy your offers
             </div>
             <img
+              alt="activit_image2"
               className="activity__pic"
               src="https://op.meituan.net/oppkit_pic/20160310032241-1e027deb-2/a9b8c52c341892600ff7260c89025a59.png"
             />
@@ -38,6 +40,6 @@ class Activity extends React.Component {
       </div>
     );
   }
-};
+}
 
 export default Activity;

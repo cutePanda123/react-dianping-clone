@@ -152,7 +152,7 @@ class Category extends Component {
                 {section.map((category, categoryIdx) => {
                   return (
                     <div  className='category__section' key={categoryIdx}>
-                      <img  className='category__icon' src={category.src} />
+                      <img alt='category_image' className='category__icon' src={category.src} />
                       <div>
                         <span className='category__text'>{category.name}</span>
                       </div>

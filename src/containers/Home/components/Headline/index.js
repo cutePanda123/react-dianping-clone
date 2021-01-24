@@ -50,7 +50,11 @@ class Headline extends Component {
                 >
                   <div className="headline__sliderTitle">{item.title}</div>
                   <div className="headline__sliderImgWrapper">
-                    <img className="headline__sliderImg" src={item.pic}></img>
+                    <img
+                      alt="head_line_image"
+                      className="headline__sliderImg"
+                      src={item.pic}
+                    ></img>
                   </div>
                 </a>
               );
@@ -60,6 +64,6 @@ class Headline extends Component {
       </div>
     );
   }
-};
+}
 
 export default Headline;

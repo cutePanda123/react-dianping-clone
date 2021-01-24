@@ -1,4 +1,4 @@
 export default {
-  getProductList: (rowOffset, pageSize) =>
-    `/mock/products/likes.json?${rowOffset}&pageSize=${pageSize}`,
+  getProductList: (path, rowOffset, pageSize) =>
+    `/mock/products/${path}.json?${rowOffset}&pageSize=${pageSize}`,
 };

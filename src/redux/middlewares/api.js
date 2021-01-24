@@ -23,9 +23,9 @@ export default store => next => action => {
     }
 
     const enhanceAction = data => {
-        const enhancedAction = {...action, ...data};
-        delete enhanceAction[FETCH_DATA];
-        return enhancedAction;
+        const finalAction = {...action, ...data};
+        delete finalAction[FETCH_DATA];
+        return finalAction;
     }
     
     const [requestType, successType, failureType] = types;

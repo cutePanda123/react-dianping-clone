@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './style.css';
 
 class HomeHeader extends Component {
@@ -7,10 +8,10 @@ class HomeHeader extends Component {
             <div className='homeHeader'>
                 <header className='homeHeader__wrapper'>
                     <a className='homeHeader__city'>Seattle</a>
-                    <a className='homeHeader__search'>Enter store name or address</a>
-                    <a className='homeHeader__avatar'>
+                    <Link to='/search' className='homeHeader__search'>Enter store name or address</Link>
+                    <Link to='/user' className='homeHeader__avatar'>
                         <div className='homeHeader__portrait' />
-                    </a>
+                    </Link>
                 </header>
             </div>
         );

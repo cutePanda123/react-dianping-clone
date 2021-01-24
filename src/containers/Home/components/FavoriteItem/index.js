@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import './style.css';
+import { Link } from "react-router-dom";
+import "./style.css";
 
 class FavoriteItem extends Component {
   render() {
     const {
+      id,
       shop,
       tag,
       picture,
@@ -13,7 +15,7 @@ class FavoriteItem extends Component {
       saleDes,
     } = this.props.data;
     return (
-      <a className="favoriteItem">
+      <Link to={`/detail/${id}`} className="favoriteItem">
         <div className="favoriteItem__picContainer">
           <div className="favoriteItem__picTag">{tag}</div>
           <img className="favoriteItem__pic" src={picture} />
@@ -29,7 +31,7 @@ class FavoriteItem extends Component {
             <ins className="favoriteItem__sale">{saleDes}</ins>
           </div>
         </div>
-      </a>
+      </Link>
     );
   }
 }

@@ -36,7 +36,7 @@ export const params = {
 export const actions = {
   fetchFavorites: () => {
     return (dispatch, getState) => {
-      const { pageIndex } = getState().home.favorites.pageIndex;
+      const { pageIndex } = getState().home.favorites;
       const offset = pageIndex * params.FETCH_FAVORITES_PAGE_SIZE;
       const endpoint = url.getProductList(
         params.FETCH_FAVORITES_PATH,
@@ -129,11 +129,11 @@ const favorites = (state = initialState.favorites, action) => {
 
 const discounts = (state = initialState.discounts, action) => {
   switch (action.type) {
-    case types.FETCH_FAVORITES_FAILURE:
+    case types.FETCH_DISCOUNTS_FAILURE:
       return {...state, isFetching: false};
-    case types.FETCH_FAVORITES_REQUEST:
+    case types.FETCH_DISCOUNTS_REQUEST:
       return {...state, isFetching: true};
-    case types.FETCH_FAVORITES_SUCCESS:
+    case types.FETCH_DISCOUNTS_SUCCESS:
       return {
         ...state,
         isFetching: false,

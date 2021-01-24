@@ -9,7 +9,7 @@ function get(url) {
     headers: headers,
   })
     .then((response) => {
-      handleResponse(url, response);
+      return handleResponse(url, response);
     })
     .catch((err) => {
       console.error(`Request failed. URL = ${url} Message=${err}`);

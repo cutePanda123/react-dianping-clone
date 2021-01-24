@@ -34,7 +34,7 @@ export const params = {
 };
 
 export const actions = {
-  fetchFAVORITES: () => {
+  fetchFavorites: () => {
     return (dispatch, getState) => {
       const { pageIndex } = getState().home.favorites.pageIndex;
       const offset = pageIndex * params.FETCH_FAVORITES_PAGE_SIZE;
@@ -43,7 +43,7 @@ export const actions = {
         offset,
         params.FETCH_FAVORITES_PAGE_SIZE
       );
-      return dispatch(fetchFAVORITES(endpoint));
+      return dispatch(fetchFavorites(endpoint));
     };
   },
   fetchDiscounts: () => {
@@ -72,7 +72,7 @@ export const actions = {
     }*/
 };
 
-const fetchFAVORITES = (endpoint) => ({
+const fetchFavorites = (endpoint) => ({
   [FETCH_DATA]: {
     types: [
       types.FETCH_FAVORITES_REQUEST,
@@ -150,3 +150,20 @@ const reducer = combineReducers({
 });
 
 export default reducer;
+
+//selectors
+export const getFavorites = state => {
+  return state.home.favorites.ids.map((id) => {
+    return state.entities.products[id];
+  });
+};
+
+export const getDiscounts = state => {
+  return state.home.discounts.ids.map((id) => {
+    return state.entities.products[id];
+  });
+};
+
+export const getPageIndexOfFavorites = state => {
+  return state.home.favorites.pageIndex;
+};

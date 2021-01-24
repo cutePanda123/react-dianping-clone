@@ -15,7 +15,7 @@ class ErrorToast extends Component {
 
     componentDidMount() {
         this.timer = setTimeout(() => {
-            this.props.clearError();
+            this.props.clearErrorHandler();
         }, 3000);
     }
 

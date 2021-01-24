@@ -5,11 +5,20 @@ import Banner from "./components/Banner";
 import Category from "./components/Category";
 import Discount from "./components/Discount";
 import FavoriteList from "./components/FavoriteList";
-import Headline from './components/Headline';
+import Headline from "./components/Headline";
 import HomeHeader from "./components/HomeHeader";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import {
+  actions as homeActions,
+  getFavorites,
+  getDiscounts,
+  getPageIndexOfFavorites,
+} from "../../redux/modules/home";
 
 class Home extends Component {
   render() {
+    const {discounts, favorites, pageIndex} = this.props;
     return (
       <div>
         <HomeHeader />
@@ -17,12 +26,36 @@ class Home extends Component {
         <Category />
         <Headline />
         <Activity />
-        <Discount />
-        <FavoriteList />
+        <Discount data={discounts}/>
+        <FavoriteList data={favorites} pageIndex={pageIndex}
+          fetchData={this.fetchMoreFavorites}
+        />
         <Footer />
       </div>
     );
   }
+
+  componentDidMount() {
+    this.props.homeActions.fetchDiscounts();
+  }
+
+  fetchMoreFavorites =() => {
+    this.props.homeActions.fetchFavorites();
+  }
 }
 
-export default Home;
+const mapStateToProps = (state, props) => {
+  return {
+    favorites: getFavorites(state),
+    discounts: getDiscounts(state),
+    pageIndex: getPageIndexOfFavorites(state),
+  };
+};
+
+const mapDispatchTopProps = (dispatch) => {
+  return {
+    homeActions: bindActionCreators(homeActions, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchTopProps)(Home);

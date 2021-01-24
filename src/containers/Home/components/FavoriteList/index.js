@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import FavoriteItem from "../FavoriteItem";
 import Loading from "../../../../components/Loading";
 
+const MAX_PAGE_NUM = 3;
 class FavoriteList extends Component {
   constructor(props) {
     super(props);
@@ -13,13 +14,13 @@ class FavoriteList extends Component {
     const { data, pageIndex } = this.props;
     return (
       <div className="favoriteList">
-        <div className="favoriteList__header">猜你喜欢</div>
+        <div className="favoriteList__header">Guess you like</div>
         <div className="favoriteList__list" ref={this.listRef}>
           {data.map((favorite, index) => {
             return <FavoriteItem key={index} data={favorite} />;
           })}
         </div>
-        {pageIndex < 3 ? (
+        {pageIndex < MAX_PAGE_NUM ? (
           <Loading />
         ) : (
           <a className="favoriteList__viewAll">View all</a>
@@ -29,12 +30,18 @@ class FavoriteList extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener("scroll", this.handleScroll);
-    this.props.fetchData();
+    if (this.props.pageIndex < MAX_PAGE_NUM) {
+      document.addEventListener("scroll", this.handleScroll);
+    } else {
+      this.isRevmovedListener = true;
+    }
+    if (this.props.pageIndex === 0) {
+      this.props.fetchData();
+    }
   }
 
   componentDidUpdate() {
-    if (!this.isRevmovedListener && this.props.pageIndex >= 3) {
+    if (!this.isRevmovedListener && this.props.pageIndex >= MAX_PAGE_NUM) {
       document.removeEventListener("scroll", this.handleScroll);
       this.isRevmovedListener = true;
     }

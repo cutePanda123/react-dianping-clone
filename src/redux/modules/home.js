@@ -48,6 +48,10 @@ export const actions = {
   },
   fetchDiscounts: () => {
     return (dispatch, getState) => {
+      const { ids} = getState().home.discounts;
+      if (ids && ids.length > 0) {
+        return null;
+      }
       const endpoint = url.getProductList(
         params.FETCH_DISCOUNTS_PATH,
         0,

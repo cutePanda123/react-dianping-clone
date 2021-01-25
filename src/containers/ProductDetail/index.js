@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Detail from './components/Detail';
 import ProductOverview from './components/ProductOverview';
 import ShopInfo from './components/ShopInfo';
 
@@ -8,6 +9,7 @@ class ProductDetail extends Component {
             <div>
                 <ProductOverview />
                 <ShopInfo />
+                <Detail />
             </div>
         );
     }

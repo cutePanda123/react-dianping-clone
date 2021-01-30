@@ -3,33 +3,36 @@ import "./style.css";
 
 class ShopInfo extends Component {
   render() {
+    const { data: relatedShop, relatedShopNum } = this.props;
+    const { shop: name, star, address, phone } = relatedShop;
     return (
       <div className="shopInfo">
         <div className="shopInfo__header">
-          Shop count (4)
+          Shop count ({relatedShopNum})
           <span className="shopInfo__arrow"></span>
         </div>
         <div className="shopInfo__middle">
           <div className="shopInfo__middleLeft">
             <div className="shopInfo__shopName">
-              院落创意菜
+              {name}
               <div className="shopInfo__starsWrapper">
                 <span className="shopInfo__stars">
                   <i
                     className="shopInfo__stars--red"
-                    style={{ width: "80%" }}
+                    style={{ width: 2 * star + "%" }}
                   ></i>
                 </span>
                 <span className="shopInfo__distance">100km</span>
               </div>
             </div>
           </div>
-          <div className="shopInfo__middleRight">
+          <a className="shopInfo__middleRight" href={`tel://${phone}`}>
             <i className="shopInfo__phoneIcon"></i>
-          </div>
+          </a>
         </div>
         <div className="shopInfo__footer">
-          <i className="shopInfo__locationIcon"></i>Beijing
+          <i className="shopInfo__locationIcon"></i>
+          {address}
         </div>
       </div>
     );

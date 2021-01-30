@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import './style.css';
+import "./style.css";
 
 class Remark extends Component {
   render() {
+    const { purchaseNotes, validityPeriod } = this.props.data;
     return (
       <div className="remark">
         <div className="remark__header">
@@ -12,18 +13,14 @@ class Remark extends Component {
         <div className="remark__list">
           <dl className="remark__item">
             <dt className="remark__itemTitle">Expiration date</dt>
-            <dd className="remark__itemDesc">2018-10-20至2019-09-15</dd>
-            <dt className="remark__itemTitle">Exclusion date</dt>
-            <dd className="remark__itemDesc">有效期内周末、法定节假日可用</dd>
-            <dt className="remark__itemTitle">Valid date</dt>
-            <dd className="remark__itemDesc">团购券使用时间：11:00-22:00</dd>
-            <dt className="remark__itemTitle">Reservation notice</dt>
-            <dd className="remark__itemDesc">
-              无需预约，消费高峰时可能需要等位
-            </dd>
-            <dt className="remark__itemTitle">Minimal requirements</dt>
-            <dd className="remark__itemDesc">每张团购券建议2人使用</dd>
+            <dd className="remark__itemDesc">{validityPeriod}</dd>
           </dl>
+          {purchaseNotes.map((note, index) => {
+            <dl key={index} className="remark__item">
+              <dt className="remark__itemTitle">{note.title}</dt>
+              <dd className="remark__itemDesc">{note.content}</dd>
+            </dl>;
+          })}
         </div>
       </div>
     );

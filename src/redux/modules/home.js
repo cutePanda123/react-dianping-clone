@@ -1,6 +1,6 @@
 import { FETCH_DATA } from "../middlewares/api";
 import { schema } from "./entities/products";
-import url from '../../utils/urls.js';
+import url from "../../utils/urls.js";
 import { combineReducers } from "redux";
 
 export const types = {
@@ -16,21 +16,21 @@ const initialState = {
   favorites: {
     isFetching: false,
     pageIndex: 0,
-    ids: []
+    ids: [],
   },
   discounts: {
     isFetching: false,
-    ids: []
-  }
+    ids: [],
+  },
 };
 
 export const params = {
   FETCH_FAVORITES_OFFSET: 0,
   FETCH_FAVORITES_PAGE_SIZE: 5,
-  FETCH_FAVORITES_PATH: 'favorites',
+  FETCH_FAVORITES_PATH: "favorites",
   FETCH_DISCOUNTS_OFFSET: 0,
   FETCH_DISCOUNTS_PAGE_SIZE: 3,
-  FETCH_DISCOUNTS_PATH: 'discounts',
+  FETCH_DISCOUNTS_PATH: "discounts",
 };
 
 export const actions = {
@@ -48,7 +48,7 @@ export const actions = {
   },
   fetchDiscounts: () => {
     return (dispatch, getState) => {
-      const { ids} = getState().home.discounts;
+      const { ids } = getState().home.discounts;
       if (ids && ids.length > 0) {
         return null;
       }
@@ -116,15 +116,15 @@ const fetchFAVORITESSuccess = () => ({
 const favorites = (state = initialState.favorites, action) => {
   switch (action.type) {
     case types.FETCH_FAVORITES_FAILURE:
-      return {...state, isFetching: false};
+      return { ...state, isFetching: false };
     case types.FETCH_FAVORITES_REQUEST:
-      return {...state, isFetching: true};
+      return { ...state, isFetching: true };
     case types.FETCH_FAVORITES_SUCCESS:
       return {
         ...state,
         isFetching: false,
         pageIndex: state.pageIndex + 1,
-        ids: state.ids.concat(action.response.ids)
+        ids: state.ids.concat(action.response.ids),
       };
     default:
       return state;
@@ -134,14 +134,14 @@ const favorites = (state = initialState.favorites, action) => {
 const discounts = (state = initialState.discounts, action) => {
   switch (action.type) {
     case types.FETCH_DISCOUNTS_FAILURE:
-      return {...state, isFetching: false};
+      return { ...state, isFetching: false };
     case types.FETCH_DISCOUNTS_REQUEST:
-      return {...state, isFetching: true};
+      return { ...state, isFetching: true };
     case types.FETCH_DISCOUNTS_SUCCESS:
       return {
         ...state,
         isFetching: false,
-        ids: state.ids.concat(action.response.ids)
+        ids: state.ids.concat(action.response.ids),
       };
     default:
       return state;
@@ -150,24 +150,24 @@ const discounts = (state = initialState.discounts, action) => {
 
 const reducer = combineReducers({
   discounts,
-  favorites
+  favorites,
 });
 
 export default reducer;
 
 //selectors
-export const getFavorites = state => {
+export const getFavorites = (state) => {
   return state.home.favorites.ids.map((id) => {
     return state.entities.products[id];
   });
 };
 
-export const getDiscounts = state => {
+export const getDiscounts = (state) => {
   return state.home.discounts.ids.map((id) => {
     return state.entities.products[id];
   });
 };
 
-export const getPageIndexOfFavorites = state => {
+export const getPageIndexOfFavorites = (state) => {
   return state.home.favorites.pageIndex;
 };

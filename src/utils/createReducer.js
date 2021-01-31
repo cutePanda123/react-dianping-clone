@@ -3,6 +3,7 @@ const createReducer = (name) => {
         if (action.response && action.response[name]) {
             return {...state, ...action.response[name]};
         }
+        return state;
     };
 };
 

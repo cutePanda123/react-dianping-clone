@@ -11,7 +11,6 @@ import {
   getProduct,
   getRelatedShop,
 } from "../../redux/modules/detail";
-import { getProductDetail } from "../../redux/modules/entities/products";
 import { bindActionCreators } from "redux";
 
 class ProductDetail extends Component {

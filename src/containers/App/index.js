@@ -6,6 +6,7 @@ import { getError, actions as appActions } from "../../redux/modules/app";
 import Home from "../Home";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ProductDetail from "../ProductDetail";
+import Search from '../Search';
 
 class App extends React.Component {
   render() {
@@ -18,6 +19,7 @@ class App extends React.Component {
         <Router>
           <Switch>
             <Route path='/detail/:id' component={ProductDetail} />
+            <Route path='/search' component={Search} />
             <Route path='/' component={Home} />
           </Switch>
         </Router>

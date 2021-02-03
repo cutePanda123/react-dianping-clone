@@ -1,33 +1,5 @@
 import React, { Component } from "react";
-import './style.css';
-
-const suggestions = [
-  {
-    id: 1,
-    keyword: "火锅",
-    quantity: 8710,
-  },
-  {
-    id: 2,
-    keyword: "火锅自助",
-    quantity: 541,
-  },
-  {
-    id: 3,
-    keyword: "火锅 三里屯",
-    quantity: 65,
-  },
-  {
-    id: 4,
-    keyword: "火锅 望京",
-    quantity: 133,
-  },
-  {
-    id: 5,
-    keyword: "火锅家常菜",
-    quantity: 179,
-  },
-];
+import "./style.css";
 
 class SearchBox extends Component {
   constructor(props) {
@@ -38,24 +10,28 @@ class SearchBox extends Component {
   }
   handleInputChange = (e) => {
     e.preventDefault();
-    this.setState({
-      inputText: e.target.value,
-    });
+    this.props.onInputChange(e.target.value);
   };
   handleInputClear = () => {
-    this.setState({
-      inputText: "",
-    });
+    this.props.onClear();
   };
 
-  handleInputCancel = () => {}
+  handleInputCancel = () => {
+    this.props.onCancel();
+  };
+
+  handleClickItem = (item) => {
+    this.props.onClickItem(item);
+  };
+
   render() {
+    const { inputText, relatedKeywords } = this.props;
     return (
       <div className="searchBox">
         <div className="searchBox__container">
           <input
             className="searchBox__text"
-            value={this.state.inputText}
+            value={inputText}
             onChange={this.handleInputChange}
           />
           <span
@@ -66,7 +42,7 @@ class SearchBox extends Component {
             Cancel
           </span>
         </div>
-        {this.state.inputText.length > 0 && this.renderSuggestionList()}
+        {relatedKeywords.length > 0 && this.renderSuggestionList()}
       </div>
     );
   }
@@ -74,14 +50,18 @@ class SearchBox extends Component {
   renderSuggestionList() {
     return (
       <ul>
-        {suggestions.map((suggestion, index) => {
+        {this.props.relatedKeywords.map((item, index) => {
           return (
-            <li key={index} className="searchBox__item">
-              <span className="searchBox__itemKeyword">
-                {suggestion.keyword}
-              </span>
+            <li
+              key={item.id}
+              onClick={() => {
+                this.handleClickItem(item);
+              }}
+              className="searchBox__item"
+            >
+              <span className="searchBox__itemKeyword">{item.keyword}</span>
               <span className="searchBox__itemQuantity">
-                Abount {suggestion.quantity} results
+                Abount {item.quantity} results
               </span>
             </li>
           );

@@ -2,43 +2,37 @@ import React, { Component } from "react";
 import "./style.css";
 
 class SearchHistory extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      historys: ["烤鸭", "火锅", "面条"],
-    };
-  }
   render() {
+    const { data } = this.props;
     return (
       <div className="searchHistory">
         <div className="searchHistory__header">Search History</div>
         <ul className="searchHistory__list">
-          {this.state.historys.map((history, index) => {
+          {data.map((item, index) => {
             return (
               <li
-                onClick={this.handleClick}
+                onClick={() => {
+                  this.props.onClickItem(item);
+                }}
                 className="searchHistory__item"
-                key={index}
+                key={item.id}
               >
-                {history}
+                {item.keyword}
               </li>
             );
           })}
         </ul>
-        <div className="searchHistory__clear" onClick={this.handleClear}>
+        <div
+          className="searchHistory__clear"
+          onClick={() => {
+            this.props.onClear();
+          }}
+        >
           Clear History
         </div>
       </div>
     );
   }
-
-  handleClear = () => {
-    this.setState({
-      historys: [],
-    });
-  };
-
-  handleClick = () => {};
 }
 
 export default SearchHistory;

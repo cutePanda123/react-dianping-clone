@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Footer from "../../components/Footer";
 import Activity from "./components/Activity";
-import Banner from "./components/Banner";
+import Banner from "../../components/Banner";
 import Category from "./components/Category";
 import Discount from "./components/Discount";
 import FavoriteList from "./components/FavoriteList";

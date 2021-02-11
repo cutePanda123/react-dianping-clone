@@ -2,6 +2,7 @@ import { FETCH_DATA } from "../middlewares/api";
 import { schema as keywordSchema, getKeywordById } from "./entities/keywords";
 import url from "../../utils/urls.js";
 import { combineReducers } from "redux";
+import { schema as shopSchema } from "./entities/shops";
 
 export const types = {
   FETCH_POPULAR_KEYWORDS_REQUEST: "FETCH_POPULAR_KEYWORDS_REQUEST",
@@ -14,6 +15,9 @@ export const types = {
   CLEAR_INPUT_TEXT: "SEARCH/CLEAR_INPUT_TEXT",
   ADD_HISTORY_KEYWORD: "SEARCH/ADD_HISTORY_KEYWORD",
   CLEAR_HISTORY_KEYWORDS: "SEARCH/CLEAR_HISTORY_KEYWORDS",
+  FETCH_SHOPS_REQUEST: "SEARCH/FETCH_SHOPS_REQUEST",
+  FETCH_SHOPS_SUCCESS: "SEARCH/FETCH_SHOPS_SUCCESS",
+  FETCH_SHOPS_FAILURE: "SEARCH/FETCH_SHOPS_FAILURE",
 };
 
 const initialState = {
@@ -32,7 +36,17 @@ const initialState = {
    * }
    */
   relatedKeywords: {},
-  historyKeywords: [], //keyword ids
+  historyKeywords: [], //keyword ids,
+  /**
+   * searchedShopsByKeywords structure:
+   * {
+   *  'keywordId': {
+   *      isFetching: false,
+   *      ids: []
+   *  }
+   * }
+   */
+  searchedShopsByKeywords: {},
 };
 
 export const actions = {
@@ -54,6 +68,16 @@ export const actions = {
       }
       const endpoint = url.getRelatedKeywords(text);
       return dispatch(fetchRelatedKeywords(text, endpoint));
+    };
+  },
+  loadRelatedShops: (keyword) => {
+    return (dispatch, getState) => {
+      const { searchedShopsByKeywords } = getState().search;
+      if (searchedShopsByKeywords[keyword]) {
+        return null;
+      }
+      const endpoint = url.getRelatedShops(keyword, end);
+      return dispatch(fetchRelatedShops(keyword, endpoint));
     };
   },
   setInputText: (text) => ({
@@ -93,6 +117,19 @@ const fetchRelatedKeywords = (text, endpoint) => ({
     ],
     endpoint,
     schema: keywordSchema,
+  },
+  text,
+});
+
+const fetchRelatedKeywords = (text, endpoint) => ({
+  [FETCH_DATA]: {
+    types: [
+      types.FETCH_SHOPS_REQUEST,
+      types.FETCH_SHOPS_SUCCESS,
+      types.FETCH_SHOPS_FAILURE,
+    ],
+    endpoint,
+    schema: shopSchema,
   },
   text,
 });
@@ -185,23 +222,62 @@ const historyKeywords = (state = initialState.historyKeywords, action) => {
   }
 };
 
+const searchedShopsByKeywords = (state = initialState.searchedShopsByKeywords, action) => {
+  switch (action.type) {
+    case types.FETCH_SHOPS_REQUEST:
+    case types.FETCH_SHOPS_SUCCESS:
+    case types.FETCH_SHOP_FAILURE:
+      return {
+        ...state,
+        [action.text]: searchedShops(state[action.text], action),
+      };
+    default:
+      return state;
+  }
+};
+
+const searchedShops = (
+  state = { isFetching: false, ids: [] },
+  action
+) => {
+  switch (action.type) {
+    case types.FETCH_SHOPS_REQUEST:
+      return { ...state, isFetching: true };
+    case types.FETCH_SHOPS_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        ids: action.response.ids,
+      };
+    case types.FETCH_SHOPS_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+      };
+    default:
+      return state;
+  }
+};
+
+
 export const reducer = combineReducers({
   popularKeywords,
   relatedKeywords,
   inputText,
   historyKeywords,
+  searchedShopsByKeywords
 });
 
 export default reducer;
 
 // selectors
-export const getPopularKeywords = state => {
-  return state.search.popularKeywords.ids.map(id => {
+export const getPopularKeywords = (state) => {
+  return state.search.popularKeywords.ids.map((id) => {
     return getKeywordById(state, id);
   });
 };
 
-export const getRelatedKeywords = state => {
+export const getRelatedKeywords = (state) => {
   const text = state.search.inputText;
   if (!text || text.trim().length == 0) {
     return [];
@@ -210,17 +286,17 @@ export const getRelatedKeywords = state => {
   if (!relatedKeywords) {
     return [];
   }
-  return relatedKeywords.ids.map(id => {
+  return relatedKeywords.ids.map((id) => {
     return getKeywordById(state, id);
   });
 };
 
-export const getInputText = state => {
+export const getInputText = (state) => {
   return state.search.inputText;
 };
 
-export const getHistoryKeywords = state => {
-  return state.search.historyKeywords.map(keywordId => {
+export const getHistoryKeywords = (state) => {
+  return state.search.historyKeywords.map((keywordId) => {
     return getKeywordById(state, keywordId);
   });
 };

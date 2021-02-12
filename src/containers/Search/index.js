@@ -68,6 +68,7 @@ class Search extends Component {
   handleClickItem = (item) => {
     this.props.searchActions.setInputText(item.keyword);
     this.props.searchActions.addHistoryKeyword(item.id);
+    this.props.searchActions.loadRelatedShops(item.id);
     this.props.history.push('/search_result');
   };
 

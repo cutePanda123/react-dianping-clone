@@ -71,6 +71,7 @@ const dataSource = [
 ];
 class ShopList extends Component {
   render() {
+    const { data } = this.props; 
     return (
       <div className="shopList">
         <div className="shopList__filter">
@@ -79,11 +80,11 @@ class ShopList extends Component {
           <div className="shopList__filterItem">Sorting</div>
         </div>
         <div className="shopList__list">
-          {dataSource.map((item, index) => {
+          {data.map((item, index) => {
             return (
               <div key={item.id}>
                 <ShopItem data={item} />
-                {index < dataSource.length - 1 ? (
+                {index < data.length - 1 ? (
                   <div className="shopList__divider" />
                 ) : null}
               </div>

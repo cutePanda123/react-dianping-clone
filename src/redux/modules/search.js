@@ -2,7 +2,7 @@ import { FETCH_DATA } from "../middlewares/api";
 import { schema as keywordSchema, getKeywordById } from "./entities/keywords";
 import url from "../../utils/urls.js";
 import { combineReducers } from "redux";
-import { schema as shopSchema } from "./entities/shops";
+import { schema as shopSchema, getShop } from "./entities/shops";
 
 export const types = {
   FETCH_POPULAR_KEYWORDS_REQUEST: "FETCH_POPULAR_KEYWORDS_REQUEST",
@@ -76,7 +76,7 @@ export const actions = {
       if (searchedShopsByKeywords[keyword]) {
         return null;
       }
-      const endpoint = url.getRelatedShops(keyword, end);
+      const endpoint = url.getRelatedShops(keyword);
       return dispatch(fetchRelatedShops(keyword, endpoint));
     };
   },
@@ -121,7 +121,7 @@ const fetchRelatedKeywords = (text, endpoint) => ({
   text,
 });
 
-const fetchRelatedKeywords = (text, endpoint) => ({
+const fetchRelatedShops = (text, endpoint) => ({
   [FETCH_DATA]: {
     types: [
       types.FETCH_SHOPS_REQUEST,
@@ -300,3 +300,24 @@ export const getHistoryKeywords = (state) => {
     return getKeywordById(state, keywordId);
   });
 };
+
+export const getSearchedShops = state => {
+  const keywordId = state.search.historyKeywords[0];
+  if (!keywordId) {
+    return [];
+  }
+  const shops = state.search.searchedShopsByKeywords[keywordId];
+  return shops.ids.map(id => {
+    return getShop(state, id);
+  });
+};
+
+export const getCurrentKeyword = state => {
+  const keywordId = state.search.historyKeywords[0];
+  if (!keywordId) {
+    return '';
+  }
+  return getKeywordById(state, keywordId).keyword;
+};
+
+

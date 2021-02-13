@@ -1,8 +1,8 @@
 const initialState = {
-  username: "",
+  username: localStorage.getItem('username') || "",
   password: "",
   isFetching: false,
-  isLogined: false,
+  isLogined: localStorage.getItem('isLogined') || false,
 };
 
 //action types
@@ -32,14 +32,20 @@ export const actions = {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           dispatch(loginSuccess());
+          localStorage.setItem("username", username);
+          localStorage.setItem("isLogined", true);
           resolve();
-        }, 3000);
+        }, 2000);
       });
     };
   },
-  logout: () => ({
-    type: types.LOGOUT,
-  }),
+  logout: () => {
+    localStorage.removeItem("username");
+    localStorage.removeItem("isLogined");
+    return {
+      type: types.LOGOUT,
+    };
+  },
   setUsername: (username) => ({
     type: types.SET_USERNAME,
     username,

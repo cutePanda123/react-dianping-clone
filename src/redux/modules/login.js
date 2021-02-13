@@ -41,11 +41,11 @@ export const actions = {
     type: types.LOGOUT,
   }),
   setUsername: (username) => ({
-    type: types.setUsername,
+    type: types.SET_USERNAME,
     username,
   }),
   setPassword: (password) => ({
-    type: types.setPassword,
+    type: types.SET_PASSWORD,
     password,
   }),
 };
@@ -54,7 +54,7 @@ const loginSuccess = () => ({
   type: types.LOGIN_SUCCESS,
 });
 
-const loginFailure = () => ({
+const loginRequest = () => ({
   type: types.LOGIN_REQUEST,
 });
 
@@ -84,3 +84,8 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
+
+// selectors
+export const getUsername = (state) => state.login.username;
+export const getPassword = (state) => state.login.password;
+export const isLogin = (state) => state.login.isLogined;

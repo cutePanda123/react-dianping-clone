@@ -4,12 +4,13 @@ import { connect } from "react-redux";
 import ErrorToast from "../../components/ErrorToast";
 import { getError, actions as appActions } from "../../redux/modules/app";
 import Home from "../Home";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ProductDetail from "../ProductDetail";
-import Search from '../Search';
+import Search from "../Search";
 import SearchResult from "../SearchResult";
 import Login from "../Login";
-import Loading from "../../components/Loading";
+import PrivateRoute from "../PrivateRoute";
+import User from "../User";
 
 class App extends React.Component {
   render() {
@@ -22,10 +23,11 @@ class App extends React.Component {
         <Router>
           <Switch>
             <Route path="/login" component={Login} />
-            <Route path='/detail/:id' component={ProductDetail} />
-            <Route path='/search' component={Search} />
-            <Route path='/search_result' component={SearchResult} />
-            <Route path='/' component={Home} />
+            <PrivateRoute path="/user" component={User} />
+            <Route path="/detail/:id" component={ProductDetail} />
+            <Route path="/search" component={Search} />
+            <Route path="/search_result" component={SearchResult} />
+            <Route path="/" component={Home} />
           </Switch>
         </Router>
         {error ? (

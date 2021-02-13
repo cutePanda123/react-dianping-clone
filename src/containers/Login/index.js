@@ -13,7 +13,12 @@ import LoginHeader from "./components/LoginHeader";
 
 class Login extends Component {
   render() {
-    const { username, password, isLogined } = this.props;
+    const { username, password, isLogined, location: {state} } = this.props;
+    if (isLogined) {
+        if (state && state.from) {
+            return <Redirect to={state.from} />
+        }
+    }
     return (
       <>
         {isLogined ? (

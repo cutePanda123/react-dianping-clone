@@ -8,6 +8,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ProductDetail from "../ProductDetail";
 import Search from '../Search';
 import SearchResult from "../SearchResult";
+import Login from "../Login";
+import Loading from "../../components/Loading";
 
 class App extends React.Component {
   render() {
@@ -19,6 +21,7 @@ class App extends React.Component {
       <div className="App">
         <Router>
           <Switch>
+            <Route path="/login" component={Login} />
             <Route path='/detail/:id' component={ProductDetail} />
             <Route path='/search' component={Search} />
             <Route path='/search_result' component={SearchResult} />

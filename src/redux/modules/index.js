@@ -10,7 +10,8 @@ const rootReducer = combineReducers({
     home,
     detail,
     app,
-    search
+    search,
+    login
 });
 
 export default rootReducer;

@@ -22,9 +22,9 @@ export const actions = {
       const { username, password } = getState().login;
       if (
         !username ||
-        username.length == 0 ||
+        username.length === 0 ||
         !password ||
-        password.length == 0
+        password.length === 0
       ) {
         return dispatch(loginFailure("invalid password or username"));
       }

@@ -1,4 +1,4 @@
-import { combineReducers, combineReucer } from "redux";
+import { combineReducers } from "redux";
 import { FETCH_DATA } from "../middlewares/api";
 import { getShop, schema as shopSchema } from "./entities/shops";
 import {

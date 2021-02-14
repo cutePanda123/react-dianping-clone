@@ -209,7 +209,7 @@ const historyKeywords = (state = initialState.historyKeywords, action) => {
   switch (action.type) {
     case types.ADD_HISTORY_KEYWORD:
       const keywords = state.filter((keyword) => {
-        if (keyword != action.text) {
+        if (keyword !== action.text) {
           return true;
         }
         return false;
@@ -279,7 +279,7 @@ export const getPopularKeywords = (state) => {
 
 export const getRelatedKeywords = (state) => {
   const text = state.search.inputText;
-  if (!text || text.trim().length == 0) {
+  if (!text || text.trim().length === 0) {
     return [];
   }
   const relatedKeywords = state.search.relatedKeywords[text];

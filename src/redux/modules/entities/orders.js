@@ -15,3 +15,7 @@ export const orderStates = {
 const reducer = createReducer(schema.name);
 
 export default reducer;
+
+export const getOrderById = (state, id) => {
+    return state.entities.orders[id];
+};

@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import url from "../../utils/urls.js";
 import { FETCH_DATA } from "../middlewares/api";
-import { schema, orderStates } from "./entities/orders";
+import { schema, orderStates, getOrderById } from "./entities/orders";
 
 const initialState = {
   orders: {
@@ -24,7 +24,7 @@ export const types = {
 export const actions = {
   loadOrders: () => {
     return (dispatch, getState) => {
-      const { ids } = getState().users.orders;
+      const { ids } = getState().user.orders;
       if (ids.length > 0) {
         return null;
       }
@@ -32,7 +32,7 @@ export const actions = {
       return dispatch(fetchOrders(endpoint));
     };
   },
-  setCurrentTab: (index) => ({
+  setCurrentTabIndex: (index) => ({
     type: types.SET_CURRENT_TAB,
     index,
   }),
@@ -51,7 +51,7 @@ const fetchOrders = (endpoint) => ({
 });
 
 //reducers
-const orders = (state = initialState, action) => {
+const orders = (state = initialState.orders, action) => {
   switch (action.type) {
     case types.FETCH_ORDERS_REQUEST:
       return {
@@ -60,13 +60,13 @@ const orders = (state = initialState, action) => {
       };
     case types.FETCH_ORDERS_SUCCESS:
       const paidOrderIds = action.response.ids.filter((id) => {
-        return action.response.orders[id].type === orderStates.PAID_TYPE;
+        return action.response.orders[id].type == orderStates.PAID_TYPE;
       });
       const unpaidOrderIds = action.response.ids.filter((id) => {
-        return action.response.orders[id].type === orderStates.UNPAID_TYPE;
+        return action.response.orders[id].type == orderStates.UNPAID_TYPE;
       });
       const returnedOrderIds = action.response.ids.filter((id) => {
-        return action.response.orders[id].type === orderStates.RETURNED_TYPE;
+        return action.response.orders[id].type == orderStates.RETURNED_TYPE;
       });
       return {
         ...state,
@@ -86,7 +86,7 @@ const orders = (state = initialState, action) => {
   }
 };
 
-const currentTabIndex = (state = initialState, action) => {
+const currentTabIndex = (state = initialState.currentTabIndex, action) => {
   switch (action.type) {
     case types.SET_CURRENT_TAB:
       return action.index;
@@ -101,3 +101,13 @@ const reducer = combineReducers({
 });
 
 export default reducer;
+
+// selectors
+export const getCurrentTabIndex = state => state.user.currentTabIndex;
+
+export const getOrders = state => {
+  const key = ['ids', 'unpaidIds', 'paidIds', 'returnedIds'][state.user.currentTabIndex];
+  return state.user.orders[key].map(id => {
+    return getOrderById(state, id);
+  });
+};

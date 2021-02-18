@@ -6,5 +6,5 @@ export default {
   getPopularKeywords: () => `/mock/keywords/popular.json`,
   getRelatedKeywords: (text) => `/mock/keywords/related.json?keyword=${text}`,
   getRelatedShops: (keyword) => `/mock/shops/related.json?keyword=${keyword}`,
-  getOrders: () => `/mock/orders/order.json`
+  getOrders: () => `/mock/orders/orders.json`
 };

@@ -1,7 +1,13 @@
 import { combineReducers } from "redux";
 import url from "../../utils/urls.js";
 import { FETCH_DATA } from "../middlewares/api";
-import { schema, orderStates, getOrderById } from "./entities/orders";
+import {
+  schema,
+  orderStates,
+  getOrderById,
+  actions as orderActions,
+  types as orderActionTypes,
+} from "./entities/orders";
 
 const initialState = {
   orders: {
@@ -12,6 +18,10 @@ const initialState = {
     returnedIds: [],
   },
   currentTabIndex: 0,
+  currentOrder: {
+    id: null,
+    isDeleting: false,
+  },
 };
 
 export const types = {
@@ -19,6 +29,13 @@ export const types = {
   FETCH_ORDERS_FAILURE: "USER/FETCH_ORDERS_FAILURE",
   FETCH_ORDERS_SUCCESS: "USER/FETCH_ORDERS_SUCCESS",
   SET_CURRENT_TAB: "USER/SET_CURRENT_TAB",
+
+  DELETE_ORDER_REQUEST: "USER/DELETE_ORDER_REQUEST",
+  DELETE_ORDER_FAILURE: "USER/DELETE_ORDER_FAILURE",
+  DELETE_ORDER_SUCCESS: "USER/DELETE_ORDER_SUCCESS",
+
+  SHOW_DELETE_DIALOG: "USER/SHOW_DELETE_DIALOG",
+  HIDE_DELETE_DIALOG: "USER/HIDE_DELETE_DIALOG",
 };
 
 export const actions = {
@@ -36,7 +53,38 @@ export const actions = {
     type: types.SET_CURRENT_TAB,
     index,
   }),
+  removeOrder: () => {
+    return (dispatch, getState) => {
+      const { id } = getState().user.currentOrder;
+      if (id) {
+        dispatch(deleteOrderRequest());
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            dispatch(deleteOrderSuccess(id));
+            dispatch(orderActions.deleteOrder(id));
+            resolve();
+          }, 500);
+        });
+      }
+    };
+  },
+  showDeleteDialog: (orderId) => ({
+    type: types.SHOW_DELETE_DIALOG,
+    orderId,
+  }),
+  hideDeleteDialog: () => ({
+    type: types.HIDE_DELETE_DIALOG,
+  }),
 };
+
+const deleteOrderRequest = () => ({
+  type: types.DELETE_ORDER_REQUEST,
+});
+
+const deleteOrderSuccess = (orderId) => ({
+  type: types.DELETE_ORDER_SUCCESS,
+  orderId,
+});
 
 const fetchOrders = (endpoint) => ({
   [FETCH_DATA]: {
@@ -81,9 +129,24 @@ const orders = (state = initialState.orders, action) => {
         ...state,
         isFetching: false,
       };
+    case orderActionTypes.DELETE_ORDER:
+    case types.DELETE_ORDER_SUCCESS:
+      return {
+        ...state,
+        ids: removeOrderId(state, "ids", action.orderId),
+        unpaidIds: removeOrderId(state, "unpaidIds", action.orderId),
+        paidIds: removeOrderId(state, "paidIds", action.orderId),
+        returnedIds: removeOrderId(state, "returnedIds", action.orderId),
+      };
     default:
       return state;
   }
+};
+
+const removeOrderId = (state, key, orderId) => {
+  return state[key].filter((id) => {
+    return id !== orderId;
+  });
 };
 
 const currentTabIndex = (state = initialState.currentTabIndex, action) => {
@@ -95,19 +158,47 @@ const currentTabIndex = (state = initialState.currentTabIndex, action) => {
   }
 };
 
+const currentOrder = (state = initialState.currentTabIndex, action) => {
+  switch (action.type) {
+    case types.SHOW_DELETE_DIALOG: {
+      return {
+        ...state,
+        id: action.orderId,
+        isDeleting: true,
+      };
+    }
+    case types.HIDE_DELETE_DIALOG:
+    case types.DELETE_ORDER_SUCCESS:
+    case types.DELETE_ORDER_FAILURE:
+      return initialState.currentOrder;
+
+    default:
+      return state;
+  }
+};
+
 const reducer = combineReducers({
-    currentTabIndex,
-    orders
+  currentTabIndex,
+  orders,
+  currentOrder,
 });
 
 export default reducer;
 
 // selectors
-export const getCurrentTabIndex = state => state.user.currentTabIndex;
+export const getCurrentTabIndex = (state) => state.user.currentTabIndex;
 
-export const getOrders = state => {
-  const key = ['ids', 'unpaidIds', 'paidIds', 'returnedIds'][state.user.currentTabIndex];
-  return state.user.orders[key].map(id => {
+export const getOrders = (state) => {
+  const key = ["ids", "unpaidIds", "paidIds", "returnedIds"][
+    state.user.currentTabIndex
+  ];
+  return state.user.orders[key].map((id) => {
     return getOrderById(state, id);
   });
+};
+
+export const getDeletingOrderId = (state) => {
+  return state.user.currentOrder && state.user.currentOrder.isDeleting
+    ? state.user.currentOrder.id
+    : null;
 };

@@ -56,9 +56,11 @@ class UserMain extends Component {
 
   renderOrderList = (data) => {
     return data.map((item) => {
-      return <OrderItem key={item.id} data={item} />;
+      return <OrderItem key={item.id} data={item} onRemove={this.removeHandler}/>;
     });
   };
+
+  removeHandler = () => {}
 }
 
 export default UserMain;

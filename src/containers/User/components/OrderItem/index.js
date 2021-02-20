@@ -24,11 +24,15 @@ class OrderItem extends Component {
           <div className="orderItem__type">{category}</div>
           <div>
             {type === 1 ? <div className="orderItem_btn">Review</div> : null}
-            <div className="orderItem__btn">Delete</div>
+            <div className="orderItem__btn" onClick={this.removeHandler}>Delete</div>
           </div>
         </div>
       </div>
     );
+  }
+
+  removeHandler = () => {
+    this.props.onRemove();
   }
 }
 

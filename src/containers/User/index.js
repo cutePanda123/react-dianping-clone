@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import UserHeader from "./components/UserHeader";
-import UserMain from "./components/UserMain";
+import UserMain from "./containers/UserMain";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
@@ -12,14 +12,12 @@ import { actions as loginActions } from "../../redux/modules/login";
 
 class User extends Component {
   render() {
-    const { currentTabIndex, orders } = this.props;
+    const { orders } = this.props;
     return (
       <div>
         <UserHeader onBack={this.backHandler} onLogout={this.logoutHandler} />
         <UserMain
-          currentTabIndex={currentTabIndex}
           data={orders}
-          onSetCurrentTab={this.handleSetCurrentTab}
         />
       </div>
     );

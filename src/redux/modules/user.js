@@ -21,6 +21,9 @@ const initialState = {
   currentOrder: {
     id: null,
     isDeleting: false,
+    isCommenting: false,
+    comment: '',
+    stars: 0
   },
 };
 
@@ -36,6 +39,16 @@ export const types = {
 
   SHOW_DELETE_DIALOG: "USER/SHOW_DELETE_DIALOG",
   HIDE_DELETE_DIALOG: "USER/HIDE_DELETE_DIALOG",
+
+  SHOW_COMMENT_AREA: 'USER/SHOW_COMMENT_AREA',
+  HIDE_COMMENT_AREA: 'USER/HIDE_COMMENT_AREA',
+  
+  SET_COMMENT: 'USER/SET_COMMENT',
+  SET_STARS: 'USER/SET_STARS',
+
+  POST_COMMENT_REQUEST: 'USER/POST_COMMENT_REQUEST',
+  POST_COMMENT_SUCCESS: 'USER/POST_COMMENT_SUCCESS',
+  POST_COMMENT_FAILURE: 'USER/POST_COMMENT_FAILURE'
 };
 
 export const actions = {
@@ -75,6 +88,37 @@ export const actions = {
   hideDeleteDialog: () => ({
     type: types.HIDE_DELETE_DIALOG,
   }),
+  showCommentArea: orderId => ({
+    type: types.SHOW_COMMENT_AREA,
+    orderId
+  }),
+  hideCommentArea: () => ({
+    type: types.HIDE_COMMENT_AREA
+  }),
+  setComment: comment => ({
+    type: types.SET_COMMENT,
+    comment
+  }),
+  setStars: stars => ({
+    type: types.SET_STARS,
+    stars
+  }),
+  submitComment: () => {
+    return (dispatch, getState) => {
+      dispatch(postCommentRequest());
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const {currentOrder: {id, stars, comment}} = getState().user;
+          const commentObj = {
+            id: +new Date(),
+            stars: stars,
+            content: comment
+          };
+          dispatch(postCommentSuccess());
+        });
+      })
+    }
+  }
 };
 
 const deleteOrderRequest = () => ({
@@ -84,6 +128,14 @@ const deleteOrderRequest = () => ({
 const deleteOrderSuccess = (orderId) => ({
   type: types.DELETE_ORDER_SUCCESS,
   orderId,
+});
+
+const postCommentRequest = () => ({
+  type: types.POST_COMMENT_REQUEST
+});
+
+const postCommentSuccess = () => ({
+  type: types.POST_COMMENT_SUCCESS
 });
 
 const fetchOrders = (endpoint) => ({

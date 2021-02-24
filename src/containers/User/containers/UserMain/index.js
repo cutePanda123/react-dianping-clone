@@ -7,8 +7,12 @@ import {
   actions as userActions,
   getCurrentTabIndex,
   getDeletingOrderId,
+  getCommentingOrderId,
+  getCurrentOrderComment,
+  getCurrentOrderStars,
 } from "../../../../redux/modules/user";
 import Confirmation from "../../../../components/Confirmation";
+import { orderStates } from "../../../../redux/modules/entities/orders";
 
 const tabTitles = ["All Orders", "Unpaid", "Paid", "Return/Refund"];
 
@@ -65,15 +69,59 @@ class UserMain extends Component {
   };
 
   renderOrderList = (data) => {
+    const { commentingOrderId, orderComment, orderStars } = this.props;
     return data.map((item) => {
       return (
         <OrderItem
           key={item.id}
           data={item}
           onRemove={this.removeHandler.bind(this, item.id)}
+          isCommenting={item.id === commentingOrderId}
+          comment={item.id === commentingOrderId ? orderComment : ""}
+          stars={item.id === commentingOrderId ? orderStars : 0}
+          onCommentChange={this.commentChangeHandler}
+          onStarsChange={this.starsChangeHandler}
+          onCommentButtonClick={this.commentButtonHandler.bind(this, item.id)}
+          onCommentSubmit={this.commentSubmitHandler}
+          onCommentCancel={this.commentCancelHandler}
         />
       );
     });
+  };
+
+  commentSubmitHandler = () => {
+    const {
+      userActions: { submitComment },
+    } = this.props;
+    submitComment();
+  };
+
+  commentCancelHandler = () => {
+    const {
+      userActions: { hideCommentArea },
+    } = this.props;
+    hideCommentArea();
+  };
+
+  commentButtonHandler = (orderId) => {
+    const {
+      userActions: { showCommentArea },
+    } = this.props;
+    showCommentArea(orderId);
+  };
+
+  commentChangeHandler = (comment) => {
+    const {
+      userActions: { setComment },
+    } = this.props;
+    setComment(comment);
+  };
+
+  starsChangeHandler = (stars) => {
+    const {
+      userActions: { setStars },
+    } = this.props;
+    setStars(stars);
   };
 
   removeHandler = (orderId) => {
@@ -100,6 +148,9 @@ const mapStateToProps = (state, props) => {
   return {
     currentTabIndex: getCurrentTabIndex(state),
     deletingOrderId: getDeletingOrderId(state),
+    commentingOrderId: getCommentingOrderId(state),
+    orderComment: getCurrentOrderComment(state),
+    orderStars: getCurrentOrderStars(state),
   };
 };
 

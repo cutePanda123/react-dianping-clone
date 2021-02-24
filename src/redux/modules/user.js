@@ -8,6 +8,7 @@ import {
   actions as orderActions,
   types as orderActionTypes,
 } from "./entities/orders";
+import { actions as commentActions } from "./entities/comments";
 
 const initialState = {
   orders: {
@@ -117,6 +118,9 @@ export const actions = {
             content: comment,
           };
           dispatch(postCommentSuccess());
+          dispatch(commentActions.addComment(commentObj));
+          dispatch(orderActions.addComment(id, commentObj.id));
+          resolve();
         });
       });
     };
@@ -221,11 +225,29 @@ const currentOrder = (state = initialState.currentTabIndex, action) => {
         isDeleting: true,
       };
     }
+    case types.SHOW_COMMENT_AREA:
+      return {
+        ...state,
+        isCommenting: true,
+        id: action.orderId,
+      };
     case types.HIDE_DELETE_DIALOG:
+    case types.HIDE_COMMENT_AREA:
+    case types.POST_COMMENT_SUCCESS:
+    case types.POST_COMMENT_FAILURE:
     case types.DELETE_ORDER_SUCCESS:
     case types.DELETE_ORDER_FAILURE:
       return initialState.currentOrder;
-
+    case types.SET_COMMENT:
+      return {
+        ...state,
+        comment: action.comment,
+      };
+    case types.SET_STARS:
+      return {
+        ...state,
+        stars: action.stars,
+      };
     default:
       return state;
   }

@@ -5,8 +5,26 @@ export const schema = {
     id: 'id'
 };
 
+export const types = {
+    ADD_COMMENT: 'COMMENT/ADD_COMMENT'
+};
+
+export const actions = {
+    addComment: (comment) => ({
+        type: types.ADD_COMMENT,
+        comment
+    })
+};
+
+const regularReducer = createReducer(schema.name);
 const reducer = (state = {}, action) => {
-    return state;
+    if (action.type === types.ADD_COMMENT) {
+        return {
+            ...state,
+            [action.comment.id]: action.comment
+        };
+    }
+    return regularReducer(state, action);
 };
 
 export default reducer;

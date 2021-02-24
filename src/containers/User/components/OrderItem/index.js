@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { orderStates } from '../../../../redux/modules/entities/orders';
 import "./style.css";
 
 class OrderItem extends Component {
@@ -25,7 +26,7 @@ class OrderItem extends Component {
         <div className="orderItem__bottom">
           <div className="orderItem__type">{category}</div>
           <div>
-            {type === 1 && !commentId ? (
+            {type === orderStates.PAID_TYPE && !commentId ? (
               <div
                 className="orderItem__btn"
                 onClick={this.commentButtonClickHandler}
@@ -79,7 +80,7 @@ class OrderItem extends Component {
               className={`orderItem__star ${lightClassName}`}
               onClick={this.props.onStarsChange.bind(this, num)}
             >
-              ⭐
+              ✰
             </span>
           );
         })}
@@ -95,7 +96,7 @@ class OrderItem extends Component {
   };
 
   commentChangeHander = (e) => {
-    this.props.commentChangeHander(e.target.value);
+    this.props.onCommentChange(e.target.value);
   };
 
   removeHandler = () => {

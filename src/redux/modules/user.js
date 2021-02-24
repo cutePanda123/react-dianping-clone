@@ -166,13 +166,13 @@ const orders = (state = initialState.orders, action) => {
       };
     case types.FETCH_ORDERS_SUCCESS:
       const paidOrderIds = action.response.ids.filter((id) => {
-        return action.response.orders[id].type == orderStates.PAID_TYPE;
+        return action.response.orders[id].type === orderStates.PAID_TYPE;
       });
       const unpaidOrderIds = action.response.ids.filter((id) => {
-        return action.response.orders[id].type == orderStates.UNPAID_TYPE;
+        return action.response.orders[id].type === orderStates.UNPAID_TYPE;
       });
       const returnedOrderIds = action.response.ids.filter((id) => {
-        return action.response.orders[id].type == orderStates.RETURNED_TYPE;
+        return action.response.orders[id].type === orderStates.RETURNED_TYPE;
       });
       return {
         ...state,

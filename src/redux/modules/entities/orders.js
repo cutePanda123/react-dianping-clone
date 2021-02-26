@@ -14,7 +14,8 @@ export const orderStates = {
 
 export const types = {
   DELETE_ORDER: "ORDERS/DELETE_ORDER",
-  ADD_COMMENT: 'ORDERS/ADD_COMMENT'
+  ADD_COMMENT: 'ORDERS/ADD_COMMENT',
+  ADD_ORDER: 'ORDERS/ADD_ORDER',
 };
 
 export const actions = {
@@ -26,8 +27,21 @@ export const actions = {
     type: types.ADD_COMMENT,
     orderId,
     commentId
-  })
+  }),
+  addOrder: order => {
+    const orderId = `o-${orderIdCounter++}`;
+    return {
+      type: types.ADD_ORDER,
+      orderId,
+      order: {
+        ...order,
+        id: orderId
+      }
+    };
+  }
 };
+
+let orderIdCounter = 10;
 
 const regularReducer = createReducer(schema.name);
 
@@ -40,8 +54,12 @@ const reducer = (state = {}, action) => {
           commentId: action.commentId
         }
       };
-    }
-    if (action.type === types.DELETE_ORDER) {
+    } else if (action.type === types.ADD_ORDER) {
+      return {
+        ...state,
+        [action.orderId]: action.order
+      };
+    } else if (action.type === types.DELETE_ORDER) {
         const {[action.orderId]: deleteOrder, ...restOrders} = state;
         return restOrders;
     }

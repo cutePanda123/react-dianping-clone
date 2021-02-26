@@ -9,7 +9,7 @@ class Tip extends Component {
                 <div className='tip__alert'>
                     <div className='tip__content'>{message}</div>
                     <div className='tip__btns'>
-                        <a className='tip_btn' onClick={this.clickHandler}>
+                        <a className='tip__btn' onClick={clickHandler}>
                             Confirm
                         </a>
                     </div>

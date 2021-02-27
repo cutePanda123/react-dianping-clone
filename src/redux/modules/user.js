@@ -5,10 +5,12 @@ import {
   schema,
   orderStates,
   getOrderById,
+  getAllOrders,
   actions as orderActions,
   types as orderActionTypes,
 } from "./entities/orders";
 import { actions as commentActions } from "./entities/comments";
+import { createSelector } from "reselect";
 
 const orderTypeToStateKeyMap = {
   [orderStates.UNPAID_TYPE]: "unpaidIds",
@@ -207,7 +209,7 @@ const orders = (state = initialState.orders, action) => {
     case orderActionTypes.ADD_ORDER:
       const { order } = action;
       const key = orderTypeToStateKeyMap[order.type];
-      const res =  key
+      const res = key
         ? {
             ...state,
             ids: [order.id].concat(state.ids),
@@ -217,7 +219,7 @@ const orders = (state = initialState.orders, action) => {
             ...state,
             ids: [order.id].concat(state.ids),
           };
-          return res;
+      return res;
     default:
       return state;
   }
@@ -286,14 +288,27 @@ export default reducer;
 // selectors
 export const getCurrentTabIndex = (state) => state.user.currentTabIndex;
 
-export const getOrders = (state) => {
-  const key = ["ids", "unpaidIds", "paidIds", "returnedIds"][
-    state.user.currentTabIndex
-  ];
-  return state.user.orders[key].map((id) => {
-    return getOrderById(state, id);
-  });
-};
+// export const getOrders = (state) => {
+//   const key = ["ids", "unpaidIds", "paidIds", "returnedIds"][
+//     state.user.currentTabIndex
+//   ];
+//   return state.user.orders[key].map((id) => {
+//     return getOrderById(state, id);
+//   });
+// };
+
+const getUserOrders = (state) => state.user.orders;
+
+export const getOrders = createSelector(
+  [getCurrentTabIndex, getUserOrders, getAllOrders],
+  (currentTabIndex, userOrders, orders) => {
+    const key = ["ids", "unpaidIds", "paidIds", "returnedIds"][currentTabIndex];
+    const orderIds = userOrders[key];
+    return orderIds.map((id) => {
+      return orders[id];
+    });
+  }
+);
 
 export const getDeletingOrderId = (state) => {
   return state.user.currentOrder && state.user.currentOrder.isDeleting

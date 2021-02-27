@@ -1,5 +1,6 @@
 import { getProductDetail } from "./entities/products";
 import { orderStates, actions as orderActions } from "./entities/orders";
+import { createSelector } from "reselect";
 
 export const types = {
   SET_ORDER_QUANTITY: "PURCHASE/SET_ORDER_QUANTITY",
@@ -81,3 +82,10 @@ export const getTipStatus = (state) => {
 export const getProduct = (state, productId) => {
     return getProductDetail(state, productId);
 };
+
+export const getTotalPrice = createSelector([getProduct, getQuantity], (product, quantity) => {
+  if (!product) {
+    return 0;
+  }
+  return (product.currentPrice * quantity).toFixed(1);
+});

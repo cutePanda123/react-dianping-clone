@@ -37,7 +37,7 @@ export const action = {
             orderPicUrl: product.picture,
             channel: "Groupon",
             statusText: "Pending payment",
-            tesxt: [text1, text2],
+            text: [text1, text2],
             type: orderStates.UNPAID_TYPE,
           };
           dispatch(orderActions.addOrder(order));

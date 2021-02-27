@@ -10,9 +10,16 @@ import {
 } from "./entities/orders";
 import { actions as commentActions } from "./entities/comments";
 
+const orderTypeToStateKeyMap = {
+  [orderStates.UNPAID_TYPE]: "unpaidIds",
+  [orderStates.PAID_TYPE]: "paidIds",
+  [orderStates.RETURNED_TYPE]: "returnedIds",
+};
+
 const initialState = {
   orders: {
     isFetching: false,
+    isFetchedBfore: false,
     ids: [],
     unpaidIds: [],
     paidIds: [],
@@ -55,8 +62,8 @@ export const types = {
 export const actions = {
   loadOrders: () => {
     return (dispatch, getState) => {
-      const { ids } = getState().user.orders;
-      if (ids.length > 0) {
+      const { ids, isFetchedBfore } = getState().user.orders;
+      if (isFetchedBfore) {
         return null;
       }
       const endpoint = url.getOrders();
@@ -177,6 +184,7 @@ const orders = (state = initialState.orders, action) => {
       return {
         ...state,
         isFetching: false,
+        isFetchedBfore: true,
         ids: state.ids.concat(action.response.ids),
         unpaidIds: state.unpaidIds.concat(unpaidOrderIds),
         paidIds: state.paidIds.concat(paidOrderIds),
@@ -196,6 +204,20 @@ const orders = (state = initialState.orders, action) => {
         paidIds: removeOrderId(state, "paidIds", action.orderId),
         returnedIds: removeOrderId(state, "returnedIds", action.orderId),
       };
+    case orderActionTypes.ADD_ORDER:
+      const { order } = action;
+      const key = orderTypeToStateKeyMap[order.type];
+      const res =  key
+        ? {
+            ...state,
+            ids: [order.id].concat(state.ids),
+            [key]: [order.id].concat(state[key]),
+          }
+        : {
+            ...state,
+            ids: [order.id].concat(state.ids),
+          };
+          return res;
     default:
       return state;
   }

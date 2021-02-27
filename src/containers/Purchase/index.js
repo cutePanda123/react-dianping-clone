@@ -18,7 +18,7 @@ class Purchase extends Component {
     const { product, phone, quantity, showTip } = this.props;
     return (
       <div>
-        <Header title="Purchase" onBack={this.backHander} />
+        <Header title="Purchase" onBackClick={this.backHander} />
         {product && (
           <PurchaseForm
             product={product}

@@ -28,8 +28,6 @@
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
-
-
 <br />
 
 ## About The Project
@@ -37,11 +35,9 @@
 This repository contains the source code that simulates the UI of Dianping food delivery mobile app. It is not intended to create any kind of Dianping competitors, but to practice some advanced concepts in frontend development such as React, React-Router, and Redux. Just see it as a nice educational project that will help you to improve your coding skills.
 <br/>
 <br />
-<br />
 <img src="./demo/home-view.PNG" alt="drawing" width="600"/>
 <br/>
 <br/>
-
 
 ## Components
 - Home
@@ -70,7 +66,6 @@ This repository contains the source code that simulates the UI of Dianping food 
     cd react-dianping-clone
     npm install
     npm run
-
 
 * Tools for development and testing:
   * [VS Code](https://code.visualstudio.com/)

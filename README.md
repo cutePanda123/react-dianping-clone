@@ -62,13 +62,13 @@
 - Git
 - React.js
 
-## How to Run 
-    ```sh
+## How to Run
+ 
     git clone https://github.com/cutePanda123/react-dianping-clone.git
     cd react-dianping-clone
     npm install
     npm run
-    ```
+
 
 * Tools for development and testing:
   * [VS Code](https://code.visualstudio.com/)

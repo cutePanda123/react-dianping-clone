@@ -32,7 +32,7 @@
 
 ## About The Project
 <br />
-This repository contains the source code that simulates the UI of Dianping food delivery mobile app. It is not intended to create any kind of Dianping competitors, but to practice some advanced concepts in frontend development such as React, React-Router, and Redux. Just see it as a nice educational project that will help you to improve your coding skills.
+This repository contains the source codes that simulate the UI of Dianping food delivery mobile app. It is not intended to create any kind of Dianping competitors, but to practice some advanced concepts in frontend development such as React, React-Router, and Redux. Just see it as a nice educational project that will help you improve your coding skills.
 <br/>
 <br />
 <img src="./demo/home-view.PNG" alt="drawing" width="600"/>
